@@ -1,4 +1,4 @@
-vision==1.0.0
+torchvision==0.15.2
 autoattack==0.1
 einops==0.4.1
 folder==0.0.1
@@ -12,6 +12,6 @@ pycountry==22.3.5
 scipy==1.9.1
 setuptools==68.0.0
 torch==2.0.1
-torchvision==0.15.2
-tqdm==4.64.1
 
+tqdm==4.64.1
+vision==1.0.0
