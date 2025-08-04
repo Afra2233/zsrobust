@@ -173,8 +173,8 @@ def main():
         torch.manual_seed(args.seed)
         cudnn.deterministic = True
 
-    imagenet_root = '/data/wangsibo/ImageNet'
-    tinyimagenet_root = '/data/wangsibo/tinyImageNet/tiny-imagenet-200'
+    # imagenet_root = '/data/wangsibo/ImageNet'
+    tinyimagenet_root = '/home/zhang303/data/tiny-imagenet-200'
     imgnet_full = imagenet_root
 
     if args.imagenet_root is not None:
