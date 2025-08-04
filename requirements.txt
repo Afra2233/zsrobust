@@ -1,5 +1,5 @@
 torchvision==0.15.2
-# autoattack==0.1
+autoattack==0.1
 einops==0.4.1
 folder==0.0.1
 h5py==3.7.0
