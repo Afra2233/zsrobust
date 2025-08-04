@@ -175,7 +175,7 @@ def main():
 
     # imagenet_root = '/data/wangsibo/ImageNet'
     tinyimagenet_root = '/home/zhang303/data/tiny-imagenet-200'
-    imgnet_full = imagenet_root
+    # imgnet_full = imagenet_root
 
     if args.imagenet_root is not None:
         imagenet_root = args.imagenet_root
