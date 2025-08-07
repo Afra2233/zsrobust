@@ -1,13 +1,11 @@
 #!/bin/bash
-#SBATCH --job-name=PMG_AFT           # 任务名
-#SBATCH --output=logs/pmg_%j.out     # 输出日志文件（%j 是 job id）
-#SBATCH --error=logs/pmg_%j.err      # 错误日志文件
-#SBATCH --time=24:00:00              # 运行最长时间（可调整）
-#SBATCH --partition=gpu              # 分区（如有）
-#SBATCH --gres=gpu:1                 # 请求一个 GPU
-#SBATCH --cpus-per-task=8            # 请求 CPU 数量
-#SBATCH --mem=32G                    # 请求内存
-
+#SBATCH --job-name=PMG_AFT
+#SBATCH --output=logs/pmg_%j.out
+#SBATCH --error=logs/pmg_%j.err
+#SBATCH -p gpu-medium
+#SBATCH --time=04:00:00
+#SBATCH --mem=96G
+#SBATCH --cpus-per-task=8
 
 
 # module load anaconda3/2022.05
