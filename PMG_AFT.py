@@ -174,9 +174,10 @@ def main():
         cudnn.deterministic = True
 
     # imagenet_root = '/data/wangsibo/ImageNet'
+    imagenet_root = os.path.join(args.root, 'Imagenet')
     # tinyimagenet_root = '/home/zhang303/data/tiny-imagenet-200'
     tinyimagenet_root = os.path.join(args.root, 'tiny-imagenet-200')
-    # imgnet_full = imagenet_root
+    imagenet_full = imagenet_root
 
     if args.imagenet_root is not None:
         imagenet_root = args.imagenet_root
@@ -349,7 +350,7 @@ def main():
 
         elif each == 'ImageNet':
             val_dataset_list.append(torchvision.datasets.ImageFolder(
-                os.path.join(imgnet_full, 'val'),
+                os.path.join(imagenet_full, 'val'),
                 transform=preprocess224))
 
         elif each == 'tinyImageNet':
