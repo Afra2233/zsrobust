@@ -16,7 +16,8 @@ source ~/.bashrc
 conda activate /scratch/hpc/07/zhang303/conda_envs/zsrobust
 
 # 进入项目目录
-cd ~/zsrobust
+# cd ~/zsrobust
+cd /scratch/hpc/07/zhang303/zsrobust
 
 # 运行脚本
 python PMG_AFT.py \
