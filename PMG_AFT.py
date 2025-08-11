@@ -174,10 +174,10 @@ def main():
         cudnn.deterministic = True
 
     # imagenet_root = '/data/wangsibo/ImageNet'
-    imagenet_root = os.path.join(args.root, 'Imagenet')
+    # imagenet_root = os.path.join(args.root, 'Imagenet')
     # tinyimagenet_root = '/home/zhang303/data/tiny-imagenet-200'
     tinyimagenet_root = os.path.join(args.root, 'tiny-imagenet-200')
-    imagenet_full = imagenet_root
+    # imagenet_full = imagenet_root
 
     if args.imagenet_root is not None:
         imagenet_root = args.imagenet_root
