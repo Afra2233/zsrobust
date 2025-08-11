@@ -1,27 +1,34 @@
+# 文件名：unzip_tiny.slurm
 #!/bin/bash
 #SBATCH --job-name=unzip_tiny
+#SBATCH -p serial                 # 或 parallel，二选一
+#SBATCH --time=00:30:00
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=4G
+#SBATCH --chdir=/scratch/hpc/07/zhang303/zsrobust
 #SBATCH --output=logs/unzip_tiny_%j.out
 #SBATCH --error=logs/unzip_tiny_%j.err
-#SBATCH -p cpu-short
-#SBATCH --time=04:00:00
-#SBATCH --mem=4G
-#SBATCH --cpus-per-task=2
 
-# 1. 进入数据目录
-cd /scratch/hpc/07/zhang303/zsrobust/data || exit 1
+# 确保目录存在
+mkdir -p logs data
+cd data || exit 1
 
-# 2. 解压（覆盖同名文件）
-echo "开始解压 tiny-imagenet-200.zip ..."
+echo "[INFO] 解压 tiny-imagenet-200.zip ..."
 unzip -o tiny-imagenet-200.zip -d . -q
 
-# 3. 更新所有文件的时间戳
-echo "更新 tiny-imagenet-200 时间戳..."
-find tiny-imagenet-200 -type f -exec touch {} +
+echo "[INFO] 刷新时间戳 ..."
+find tiny-imagenet-200 -type f -exec touch -m {} +
 
-# 4. 检查文件数量
+# 简单完整性检查
 train_count=$(find tiny-imagenet-200/train -type f | wc -l)
 val_count=$(find tiny-imagenet-200/val -type f | wc -l)
-echo "训练集图片数: $train_count"
-echo "验证集图片数: $val_count"
+echo "[INFO] train files: $train_count"
+echo "[INFO] val files:   $val_count"
 
-echo "解压完成 ✅"
+# 非零则认为成功
+if [ "$train_count" -eq 0 ] || [ "$val_count" -eq 0 ]; then
+  echo "[ERROR] 解压不完整"; exit 1
+fi
+
+echo "[DONE] 解压完成 ✅"
+
