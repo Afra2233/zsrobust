@@ -13,7 +13,7 @@
 
 
 source ~/.bashrc
-conda activate /storage/hpc/07/zhang303/conda_envs/zsrobust
+conda activate /storage/hpc/07/zhang303/conda_envs/zsrobust39
 
 # 进入项目目录
 # cd ~/zsrobust
