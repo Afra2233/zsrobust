@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=unzip_tiny
 #SBATCH -p parallel              
-#SBATCH --time=00:30:00
+#SBATCH --time=03:00:00
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=4G
 #SBATCH --chdir=/scratch/hpc/07/zhang303/zsrobust
@@ -13,7 +13,7 @@ mkdir -p logs data
 cd data || exit 1
 
 echo "[INFO] 解压 tiny-imagenet-200.zip ..."
-unzip -o tiny-imagenet-200.zip -d . -q
+unzip -o -q tiny-imagenet-200.zip -d .
 
 echo "[INFO] 刷新时间戳 ..."
 find tiny-imagenet-200 -type f -exec touch -m {} +
@@ -30,4 +30,5 @@ if [ "$train_count" -eq 0 ] || [ "$val_count" -eq 0 ]; then
 fi
 
 echo "[DONE] 解压完成 ✅"
+
 
