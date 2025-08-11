@@ -1,7 +1,6 @@
-# 文件名：unzip_tiny.slurm
 #!/bin/bash
 #SBATCH --job-name=unzip_tiny
-#SBATCH -p serial                 # 或 parallel，二选一
+#SBATCH -p serial                 
 #SBATCH --time=00:30:00
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=4G
