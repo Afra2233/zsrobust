@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH --job-name=unzip_tiny
 #SBATCH -p parallel              
-#SBATCH --time=10:00:00
-#SBATCH --cpus-per-task=2
-#SBATCH --mem=4G
+#SBATCH --time=48:00:00
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=96G
 #SBATCH --chdir=/scratch/hpc/07/zhang303/zsrobust
 #SBATCH --output=logs/unzip_tiny_%j.out
 #SBATCH --error=logs/unzip_tiny_%j.err
