@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=unzip_tiny
 #SBATCH -p parallel              
-#SBATCH --time=03:00:00
+#SBATCH --time=10:00:00
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=4G
 #SBATCH --chdir=/scratch/hpc/07/zhang303/zsrobust
