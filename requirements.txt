@@ -16,3 +16,4 @@ torch==2.0.1
 
 tqdm==4.64.1
 # vision==1.0.0
+git+https://github.com/openai/CLIP.git
