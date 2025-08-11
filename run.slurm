@@ -20,7 +20,7 @@ conda activate /storage/hpc/07/zhang303/conda_envs/zsrobust
 cd /scratch/hpc/07/zhang303/zsrobust
 
 # 运行脚本
-cd /scratch/hpc/07/zhang303/zsrobust/data/Imagenet
+# cd /scratch/hpc/07/zhang303/zsrobust/data/Imagenet
 # python3 unzip.py
 
 python PMG_AFT.py \
