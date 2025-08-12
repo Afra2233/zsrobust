@@ -29,6 +29,7 @@ import torch.nn as nn
 import logging
 from autoattack import AutoAttack
 from PIL import Image
+# from torchvision.datasets import SUN397
 
 
 def parse_option():

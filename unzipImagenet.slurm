@@ -14,6 +14,13 @@
 cd data/Imagenet
 
 # 改名：train → train_1
+
+
+source /etc/profile
+
+curl -O https://image-net.org/data/ILSVRC/2012/ILSVRC2012_img_train.tar
+
+ind ./ * -exec touch {} \;
 mkdir train_1
 tar -xvf ILSVRC2012_img_train.tar -C train_1
 
