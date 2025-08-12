@@ -294,14 +294,15 @@ def main():
 
     val_dataset_list = []
     if args.evaluate:
-        val_dataset_name = ['cifar10', 'cifar100', 'STL10', 'SUN397', 'Food101',
+        val_dataset_name = ['cifar10', 'cifar100', 'STL10', , 'Food101',
                             'oxfordpet', 'flowers102', 'dtd', 'EuroSAT', 'fgvc_aircraft',
-                            'tinyImageNet', 'ImageNet', 'Caltech101', 'Caltech256', 'StanfordCars', 'PCAM']
-
+                            'tinyImageNet', 'ImageNet', 'Caltech101', 'Caltech256', 'StanfordCars', 'PCAM'] 
+    # 'SUN397'
     else:
-        val_dataset_name = ['cifar10', 'cifar100', 'STL10', 'SUN397', 'Food101',
+        val_dataset_name = ['cifar10', 'cifar100', 'STL10', 'Food101',
                             'oxfordpet', 'flowers102', 'dtd', 'EuroSAT', 'fgvc_aircraft',
                             'tinyImageNet', 'ImageNet', 'Caltech101', 'Caltech256', 'StanfordCars', 'PCAM']
+    # 'SUN397'
     for each in val_dataset_name:
         if each == 'cifar10':
             val_dataset_list.append(CIFAR10(args.root, transform=preprocess,
@@ -319,9 +320,9 @@ def main():
         elif each == 'STL10':
             val_dataset_list.append(STL10(args.root, split='test',
                                           transform=preprocess, download=True))
-        elif each == 'SUN397':
-            val_dataset_list.append(SUN397(args.root,
-                                           transform=preprocess224, download=True))
+        # elif each == 'SUN397':
+        #     val_dataset_list.append(SUN397(args.root,
+                                        #    transform=preprocess224, download=True))
         elif each == 'StanfordCars':
             val_dataset_list.append(StanfordCars(args.root, split='test',
                                                  transform=preprocess224, download=False))
