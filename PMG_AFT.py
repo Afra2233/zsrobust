@@ -338,7 +338,7 @@ def main():
 
         elif each == 'Caltech256':
             val_dataset_list.append(Caltech256(args.root, transform=preprocess224,
-                                               download=False))
+                                               download=True))
         elif each == 'flowers102':
             val_dataset_list.append(Flowers102(args.root, split='test',
                                                transform=preprocess224, download=True))
