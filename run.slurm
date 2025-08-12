@@ -25,7 +25,8 @@ cd /scratch/hpc/07/zhang303/zsrobust
 
 python PMG_AFT.py \
    --batch_size 256 \
-   --root ./data \
+   # --root ./data \
+   --root /scratch/hpc/07/zhang303/zsrobust/data \
    --dataset tinyImageNet \
    --name wangsibo \
    --train_eps 1 \
