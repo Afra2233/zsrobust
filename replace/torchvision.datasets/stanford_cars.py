@@ -46,6 +46,7 @@ class StanfordCars(VisionDataset):
 
         super().__init__(root, transform=transform, target_transform=target_transform)
 
+        print("DEBUG base folder:", self._base_folder)
         self._split = verify_str_arg(split, "split", ("train", "test"))
         self._base_folder = pathlib.Path(root) / "stanford_cars"
         devkit = self._base_folder / "devkit"
