@@ -325,7 +325,7 @@ def main():
                                         #    transform=preprocess224, download=True))
         elif each == 'StanfordCars':
             val_dataset_list.append(StanfordCars(args.root, split='test',
-                                                 transform=preprocess224, download=True))
+                                                 transform=preprocess224, download=False))
         elif each == 'Food101':
             val_dataset_list.append(Food101(args.root, split='test',
                                             transform=preprocess224, download=True))
