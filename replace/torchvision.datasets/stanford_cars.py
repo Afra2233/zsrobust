@@ -32,6 +32,7 @@ class StanfordCars(VisionDataset):
     def __init__(
         self,
         root: str,
+        
         split: str = "train",
         transform: Optional[Callable] = None,
         target_transform: Optional[Callable] = None,
@@ -46,10 +47,11 @@ class StanfordCars(VisionDataset):
 
         super().__init__(root, transform=transform, target_transform=target_transform)
 
-        print("DEBUG base folder:", self._base_folder)
+       
         self._split = verify_str_arg(split, "split", ("train", "test"))
         self._base_folder = pathlib.Path(root) / "stanford_cars"
         devkit = self._base_folder / "devkit"
+        print(f"[DEBUG] base_folder={self._base_folder}")
 
         if self._split == "train":
             self._annotations_mat_path = devkit / "cars_train_annos.mat"
