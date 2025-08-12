@@ -334,7 +334,7 @@ def main():
                                                   transform=preprocess224, download=True))
         elif each == 'EuroSAT':
             val_dataset_list.append(EuroSAT(args.root,
-                                            transform=preprocess224, download=True))
+                                            transform=preprocess224, download=False))
 
         elif each == 'Caltech256':
             val_dataset_list.append(Caltech256(args.root, transform=preprocess224,
