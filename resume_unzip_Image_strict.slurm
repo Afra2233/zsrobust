@@ -5,8 +5,8 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=96G
 #SBATCH --chdir=/scratch/hpc/07/zhang303/zsrobust/data/Imagenet
-#SBATCH --output=logs/resume_unzip_Image_strict_%j.out
-#SBATCH --error=logs/resume_unzip_Image_strict_%j.err
+#SBATCH --output=/scratch/hpc/07/zhang303/zsrobust/logs/%x_%j.out
+#SBATCH --error=/scratch/hpc/07/zhang303/zsrobust/logs/%x_%j.err
 
 
 set -euo pipefail

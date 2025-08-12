@@ -296,12 +296,12 @@ def main():
     if args.evaluate:
         val_dataset_name = ['cifar10', 'cifar100', 'STL10',  'Food101',
                             'oxfordpet', 'flowers102', 'dtd', 'EuroSAT', 'fgvc_aircraft',
-                            'tinyImageNet', 'StanfordCars', 'PCAM'] 
+                            'tinyImageNet','Caltech101','Caltech256', 'StanfordCars', 'PCAM'] 
     # 'SUN397','ImageNet','Caltech101'，'Caltech256',
     else:
         val_dataset_name = ['cifar10', 'cifar100', 'STL10', 'Food101',
                             'oxfordpet', 'flowers102', 'dtd', 'EuroSAT', 'fgvc_aircraft',
-                            'tinyImageNet', 'StanfordCars', 'PCAM']
+                            'tinyImageNet', 'Caltech101','Caltech256','StanfordCars', 'PCAM']
     # 'SUN397','ImageNet', 'Caltech101'，'Caltech256',
     for each in val_dataset_name:
         if each == 'cifar10':
