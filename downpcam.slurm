@@ -1,4 +1,3 @@
-cat > jobs/get_pcam.sbatch <<'EOF'
 #!/bin/bash
 #SBATCH --job-name=get_pcam
 #SBATCH -p serial            # HEC上下载最好用轻量队列/serial队列，别占GPU队列
