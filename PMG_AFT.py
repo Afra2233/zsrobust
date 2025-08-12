@@ -313,10 +313,10 @@ def main():
 
         elif each == 'Caltech101':
             val_dataset_list.append(Caltech101(args.root, target_type='category', transform=preprocess224,
-                                               download=False))
+                                               download=True))
         elif each == 'PCAM':
             val_dataset_list.append(PCAM(args.root, split='test', transform=preprocess224,
-                                         download=False))
+                                         download=True))
         elif each == 'STL10':
             val_dataset_list.append(STL10(args.root, split='test',
                                           transform=preprocess, download=True))
@@ -325,7 +325,7 @@ def main():
                                         #    transform=preprocess224, download=True))
         elif each == 'StanfordCars':
             val_dataset_list.append(StanfordCars(args.root, split='test',
-                                                 transform=preprocess224, download=False))
+                                                 transform=preprocess224, download=True))
         elif each == 'Food101':
             val_dataset_list.append(Food101(args.root, split='test',
                                             transform=preprocess224, download=True))
