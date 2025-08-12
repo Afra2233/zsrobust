@@ -20,14 +20,14 @@ conda activate /storage/hpc/07/zhang303/conda_envs/zsrobust39
 cd /scratch/hpc/07/zhang303/zsrobust
 
 # 运行脚本
-cd /scratch/hpc/07/zhang303/zsrobust/data/Imagenet
-python3 unzip.py
+# cd /scratch/hpc/07/zhang303/zsrobust/data/Imagenet
+# python3 unzip.py
 
-# python PMG_AFT.py \
-#    --batch_size 256 \
-#    --root ./data \
-#    --dataset tinyImageNet \
-#    --name wangsibo \
-#    --train_eps 1 \
-#    --train_numsteps 2 \
-#    --train_stepsize 1
+python PMG_AFT.py \
+   --batch_size 256 \
+   --root ./data \
+   --dataset tinyImageNet \
+   --name wangsibo \
+   --train_eps 1 \
+   --train_numsteps 2 \
+   --train_stepsize 1
