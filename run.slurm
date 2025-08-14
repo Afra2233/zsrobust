@@ -32,5 +32,5 @@ python PMG_AFT.py \
    --train_eps 1 \
    --train_numsteps 2 \
    --train_stepsize 1 \
-   --epochs 1 \
+   --epochs 10 \
    --add_prompt_size 0
