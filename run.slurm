@@ -3,8 +3,9 @@
 #SBATCH --output=logs/pmg_%j.out
 #SBATCH --error=logs/pmg_%j.err
 #SBATCH -p gpu-medium
-
-#SBATCH --gres=gpu:4 
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=2
+#SBATCH --gres=gpu:2
 #SBATCH --time=48:00:00
 #SBATCH --mem=96G
 #SBATCH --cpus-per-task=8
@@ -27,7 +28,7 @@ cd /scratch/hpc/07/zhang303/zsrobust
 MASTER_PORT=$((10000 + RANDOM % 50000))
 
 srun torchrun \
-    --nproc_per_node=4 \
+    --nproc_per_node=2 \
     --nnodes=$SLURM_NNODES \
     --node_rank=$SLURM_NODEID \
     --master_addr=$(scontrol show hostnames $SLURM_NODELIST | head -n 1) \
