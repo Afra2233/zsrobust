@@ -40,7 +40,7 @@ def parse_option():
     parser.add_argument('--test_freq', type=int, default=3)
     parser.add_argument('--batch_size', type=int, default=256)
     parser.add_argument('--num_workers', type=int, default=8)
-    parser.add_argument('--epochs', type=int, default=1)
+    parser.add_argument('--epochs', type=int, default=10)
     parser.add_argument('--learning_rate', type=float, default=5e-5)
     parser.add_argument("--weight_decay", type=float, default=0)
     parser.add_argument("--warmup", type=int, default=1000)
