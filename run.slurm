@@ -3,7 +3,8 @@
 #SBATCH --output=logs/pmg_%j.out
 #SBATCH --error=logs/pmg_%j.err
 #SBATCH -p gpu-medium
-#SBATCH --gres=gpu:1 
+#SBATCH --nodes=1
+#SBATCH --gres=gpu:4 
 #SBATCH --time=48:00:00
 #SBATCH --mem=96G
 #SBATCH --cpus-per-task=8
@@ -24,12 +25,12 @@ cd /scratch/hpc/07/zhang303/zsrobust
 # python3 unzip.py
 
 python PMG_AFT.py \
-   --batch_size 64 \
+   --batch_size 256 \
    --root ./data \
    --dataset tinyImageNet \
    --name wangsibo \
    --train_eps 1 \
    --train_numsteps 2 \
    --train_stepsize 1 \
-   --epochs 1
-   # --add_prompt_size 100
+   --epochs 1 \
+   --add_prompt_size 0
