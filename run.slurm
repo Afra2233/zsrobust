@@ -3,7 +3,7 @@
 #SBATCH --output=logs/pmg_%j.out
 #SBATCH --error=logs/pmg_%j.err
 #SBATCH -p gpu-medium
-#SBATCH --nodes=2
+
 #SBATCH --gres=gpu:4 
 #SBATCH --time=48:00:00
 #SBATCH --mem=96G
