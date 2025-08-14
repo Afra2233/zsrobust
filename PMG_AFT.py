@@ -183,7 +183,8 @@ def main():
     if args.imagenet_root is not None:
         imagenet_root = args.imagenet_root
 
-    add_prompt_len = 0
+    # add_prompt_len = 0
+    add_prompt_len =  args.add_prompt_size 
 
     model, preprocess = clip.load('ViT-B/32', device, jit=False, prompt_len=add_prompt_len)
     model_ori, preprocess_ori = clip.load('ViT-B/32', device, jit=False, prompt_len=add_prompt_len)
@@ -495,7 +496,7 @@ def attack_CW(prompter, model, model_text, model_image, add_prompter, criterion,
         # output = model(normalize(X ))
 
         prompted_images = prompter(clip_img_preprocessing(X + delta))
-        prompt_token = add_prompter()
+        prompt_token = add_prompter() if add_prompt_len > 0 else None
 
         output, _, _, _ = multiGPU_CLIP(model_image, model_text, model, prompted_images, text_tokens, prompt_token)
 
@@ -597,7 +598,7 @@ def attack_pgd(prompter, model, model_text, model_image, add_prompter, criterion
         # output = model(normalize(X ))
 
         prompted_images = prompter(clip_img_preprocessing(X + delta))
-        prompt_token = add_prompter()
+        prompt_token = add_prompter() if add_prompt_len > 0 else None
 
         output, _, _, _ = multiGPU_CLIP(model_image, model_text, model, prompted_images, text_tokens, prompt_token)
 
@@ -726,7 +727,9 @@ def train(train_loader, texts, model, model_ori, model_text, model_image, prompt
             tem_clean = clip_img_preprocessing(images)
             prompted_images = prompter(tmp)
             prompted_clean_images = prompter(tem_clean)
-            prompt_token = None
+
+            #prompt_token = None
+            prompt_token = prompt_token = add_prompter() if add_prompt_len > 0 else None
 
             # for multiple GPU
             output, _, img_embed, _ = multiGPU_CLIP(model_image, model_text, model, prompted_images, text_tokens,
@@ -832,7 +835,8 @@ def validate(val_loader_list, val_dataset_name, texts_list, model, model_text, m
                 # compute output
                 with torch.no_grad():
                     # prompt_token = add_prompter()
-                    prompt_token = None
+                    # prompt_token = None
+                    prompt_token = prompt_token = add_prompter() if add_prompt_len > 0 else None
                     # output_prompt, _ = model(prompter(clip_img_preprocessing(images)), text_tokens, prompt_token)
                     output_prompt, _, _, _ = multiGPU_CLIP(model_image, model_text, model,
                                                            prompter(clip_img_preprocessing(images)), text_tokens,
