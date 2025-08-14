@@ -25,7 +25,7 @@ cd /scratch/hpc/07/zhang303/zsrobust
 # cd /scratch/hpc/07/zhang303/zsrobust/data/Imagenet
 # python3 unzip.py
 
-MASTER_PORT=$((10000 + RANDOM % 50000))
+MASTER_PORT=$((10000 + ($RANDOM % 50000) + $(date +%s) % 1000))
 
 srun torchrun \
     --nproc_per_node=2 \
