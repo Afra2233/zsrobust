@@ -30,6 +30,9 @@ import logging
 from autoattack import AutoAttack
 from PIL import Image
 # from torchvision.datasets import SUN397
+import torch.distributed as dist
+from torch.nn.parallel import DistributedDataParallel as DDP
+from torch.utils.data.distributed import DistributedSampler
 
 
 def parse_option():
@@ -159,7 +162,14 @@ def to_rgb(img):
 
 
 def main():
+    
     global best_acc1, device
+    #######################################################
+    dist.init_process_group(backend='nccl')
+    torch.cuda.set_device(int(os.environ["LOCAL_RANK"]))
+    device = torch.device("cuda", int(os.environ["LOCAL_RANK"]))
+    ###########################################################
+    
 
     args = parse_option()
     args.train_eps = args.train_eps / 255.
@@ -196,7 +206,12 @@ def main():
     model_ori.eval()
 
     convert_models_to_fp32(model)
-    model = torch.nn.DataParallel(model)
+
+    # ################################################################
+    # model = torch.nn.DataParallel(model)
+    model = DDP(model.to(device), device_ids=[int(os.environ["LOCAL_RANK"])], output_device=int(os.environ["LOCAL_RANK"]))
+    # ################################################################
+    
     model.eval()
 
     prompter = NullPrompter()
@@ -364,13 +379,21 @@ def main():
                 os.path.join(tinyimagenet_root, 'val'),
                 transform=preprocess224))
 
-    train_sampler = None
-    val_sampler = None
+    ##########################################################
+    
+    # train_sampler = None
+    # val_sampler = None
 
+    
+    train_sampler = DistributedSampler(train_dataset)
     train_loader = DataLoader(train_dataset,
                               batch_size=args.batch_size, pin_memory=True,
                               num_workers=args.num_workers, shuffle=True, sampler=train_sampler)
-
+    ##########################################################
+   
+   ##########################################################
+    val_sampler = DistributedSampler(val_dataset, shuffle=False)
+    ##########################################################
     val_loader_list = [DataLoader(each,
                                   batch_size=args.batch_size, pin_memory=True,
                                   num_workers=args.num_workers, shuffle=False, sampler=val_sampler) for each in
