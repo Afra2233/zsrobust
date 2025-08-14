@@ -182,7 +182,8 @@ def main():
 
     if args.imagenet_root is not None:
         imagenet_root = args.imagenet_root
-
+        
+    global add_prompt_len
     # add_prompt_len = 0
     add_prompt_len =  args.add_prompt_size 
 
