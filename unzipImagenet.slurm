@@ -19,12 +19,12 @@ cd data/Imagenet
 # curl -O https://image-net.org/data/ILSVRC/2012/ILSVRC2012_img_train.tar
 
 # ind ./ * -exec touch {} \;
-mkdir train_1
-tar -xvf ILSVRC2012_img_train.tar -C train_1
+mkdir train
+tar -xvf ILSVRC2012_img_train.tar -C train
 
 # 循环解压每个类别的 tar 包
-for x in train_1/*.tar; do
-    fn="train_1/$(basename "$x" .tar)"
+for x in train/*.tar; do
+    fn="train/$(basename "$x" .tar)"
     mkdir "$fn"
     tar -xvf "$x" -C "$fn"
     rm -f "$x"
