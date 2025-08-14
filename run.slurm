@@ -33,7 +33,7 @@ srun torchrun \
     --master_addr=$(scontrol show hostnames $SLURM_NODELIST | head -n 1) \
     --master_port=$MASTER_PORT \
     PMG_AFT.py \
-    --batch_size 32 \
+    --batch_size 64 \
     --root ./data \
     --dataset tinyImageNet \
     --name wangsibo \
