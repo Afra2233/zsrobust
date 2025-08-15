@@ -312,13 +312,13 @@ def main():
 
     val_dataset_list = []
     if args.evaluate:
-        val_dataset_name = ['cifar10','cifar100','STL10','PCAM','fgvc_aircraft','Food101','flowers102','dtd']
+        val_dataset_name = ['cifar10','cifar100','STL10','PCAM','fgvc_aircraft','Food101','flowers102','dtd','oxfordpet','StanfordCars']
         # 'fgvc_aircraft','oxfordpet','Food101','StanfordCars'
     # 'SUN397','ImageNet','Caltech101'，'Caltech256','EuroSAT', 'cifar100', 'STL10',  'Food101',
                             # 'oxfordpet', 'flowers102', 'dtd', 'fgvc_aircraft',
                             # 'tinyImageNet','Caltech101','Caltech256', 'StanfordCars', 'PCAM'] 
     else:
-        val_dataset_name = ['cifar10','cifar100','STL10','PCAM','fgvc_aircraft','Food101','flowers102','dtd']
+        val_dataset_name = ['cifar10','cifar100','STL10','PCAM','fgvc_aircraft','Food101','flowers102','dtd','oxfordpet','StanfordCars']
         # ['cifar10', 'cifar100', 'STL10', 'Food101',
                             # 'oxfordpet', 'flowers102', 'dtd', 'fgvc_aircraft',
                             # 'tinyImageNet', 'Caltech101','Caltech256','StanfordCars', 'PCAM']
