@@ -3,7 +3,7 @@
 #SBATCH --output=logs/pmg_%j.out
 #SBATCH --error=logs/pmg_%j.err
 #SBATCH -p gpu-medium
-#SBATCH --nodes=1
+
 #SBATCH --gres=gpu:4 
 #SBATCH --time=48:00:00
 #SBATCH --mem=96G
@@ -25,7 +25,7 @@ cd /scratch/hpc/07/zhang303/zsrobust
 # python3 unzip.py
 
 python PMG_AFT.py \
-   --batch_size 256 \
+   --batch_size 125 \
    --root ./data \
    --dataset tinyImageNet \
    --name wangsibo \
