@@ -312,13 +312,13 @@ def main():
 
     val_dataset_list = []
     if args.evaluate:
-        val_dataset_name = ['cifar10','cifar100','STL10','PCAM']
+        val_dataset_name = ['cifar10','cifar100','STL10','PCAM','fgvc_aircraft','Food101']
         # 'fgvc_aircraft','oxfordpet','Food101','StanfordCars'
     # 'SUN397','ImageNet','Caltech101'，'Caltech256','EuroSAT', 'cifar100', 'STL10',  'Food101',
                             # 'oxfordpet', 'flowers102', 'dtd', 'fgvc_aircraft',
                             # 'tinyImageNet','Caltech101','Caltech256', 'StanfordCars', 'PCAM'] 
     else:
-        val_dataset_name = ['cifar10','cifar100','STL10','PCAM']
+        val_dataset_name = ['cifar10','cifar100','STL10','PCAM','fgvc_aircraft','Food101']
         # ['cifar10', 'cifar100', 'STL10', 'Food101',
                             # 'oxfordpet', 'flowers102', 'dtd', 'fgvc_aircraft',
                             # 'tinyImageNet', 'Caltech101','Caltech256','StanfordCars', 'PCAM']
@@ -387,9 +387,9 @@ def main():
 
     
     # train_sampler = DistributedSampler(train_dataset)
-    # train_loader = DataLoader(train_dataset,
-    #                           batch_size=args.batch_size, pin_memory=True,
-    #                           num_workers=args.num_workers, shuffle=True, sampler=train_sampler)
+    train_loader = DataLoader(train_dataset,
+                              batch_size=args.batch_size, pin_memory=True,
+                              num_workers=args.num_workers, shuffle=True, sampler=train_sampler)
     ##########################################################
    
    ##########################################################
