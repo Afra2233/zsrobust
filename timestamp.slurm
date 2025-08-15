@@ -13,6 +13,8 @@
 
 
 # 刷新整个 zsrobust 目录的时间戳
-find /scratch/hpc/07/zhang303/zsrobust -exec touch -m {} +
+# find /scratch/hpc/07/zhang303/zsrobust -exec touch -m {} +
 
+# find /scratch/hpc/07/zhang303/zsrobust -type f -exec touch {} +
 
+find /scratch/hpc/07/zhang303/zsrobust -exec touch {} +
