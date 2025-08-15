@@ -3,8 +3,8 @@
 #SBATCH --output=logs/pmg_%j.out
 #SBATCH --error=logs/pmg_%j.err
 #SBATCH -p gpu-medium
-
-#SBATCH --gres=gpu:4 
+#SBATCH --nodes=1
+#SBATCH --gres=gpu:1
 #SBATCH --time=48:00:00
 #SBATCH --mem=96G
 #SBATCH --cpus-per-task=8
