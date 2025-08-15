@@ -25,7 +25,7 @@ cd /scratch/hpc/07/zhang303/zsrobust
 # python3 unzip.py
 
 python PMG_AFT.py \
-   --batch_size 125 \
+   --batch_size 256 \
    --root ./data \
    --dataset tinyImageNet \
    --name wangsibo \
