@@ -8,15 +8,6 @@
 #SBATCH --output=logs/unzip_tiny_%j.out
 #SBATCH --error=logs/unzip_tiny_%j.err
 
-#!/bin/bash
-#SBATCH --job-name=unzip_tiny
-#SBATCH -p parallel              
-#SBATCH --time=00:10:00
-#SBATCH --cpus-per-task=4
-#SBATCH --mem=8G
-#SBATCH --chdir=/scratch/hpc/07/zhang303/zsrobust
-#SBATCH --output=logs/unzip_tiny_%j.out
-#SBATCH --error=logs/unzip_tiny_%j.err
 
 set -euo pipefail
 
@@ -38,8 +29,8 @@ if [ -d "$VAL_DIR/images" ] && [ -f "$VAL_DIR/val_annotations.txt" ]; then
 fi
 
 # 刷新时间戳（可选）
-find tiny-imagenet-200 -type f -exec touch -m {} +
 
+find tiny-imagenet-200 -exec touch {} +
 # ===== 基本完整性检查 =====
 train_count=$(find tiny-imagenet-200/train -type f -iname "*.jpeg" | wc -l)
 val_count=$(find tiny-imagenet-200/val   -type f -iname "*.jpeg" | wc -l)
