@@ -23,6 +23,8 @@ cd /scratch/hpc/07/zhang303/zsrobust
 # 运行脚本
 # cd /scratch/hpc/07/zhang303/zsrobust/data/Imagenet
 # python3 unzip.py
+export TORCH_DISTRIBUTED_DEBUG=DETAIL
+export NCCL_DEBUG=INFO
 
 python PMG_AFT.py \
    --batch_size 256 \
