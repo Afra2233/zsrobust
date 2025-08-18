@@ -127,7 +127,8 @@ ImageNet_STD = (0.229, 0.224, 0.225)
 mu_img = torch.tensor(ImageNet_MEAN).view(3, 1, 1).cuda()
 std_img = torch.tensor(ImageNet_STD).view(3, 1, 1).cuda()
 
-
+logger.info(f"CUDA_VISIBLE_DEVICES={os.environ.get('CUDA_VISIBLE_DEVICES')}")
+logger.info(f"device_count={torch.cuda.device_count()}")
 def normalize(X):
     return (X - mu_img) / std_img
 
