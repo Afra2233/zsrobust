@@ -45,7 +45,7 @@ def parse_option():
     parser.add_argument('--batch_size', type=int, default=256)
     parser.add_argument('--num_workers', type=int, default=8)
     parser.add_argument('--epochs', type=int, default=10)
-    parser.add_argument('--learning_rate', type=float, default=1e-4)#5e-5,2e-5
+    parser.add_argument('--learning_rate', type=float, default=5e-5)#5e-5,2e-5
     parser.add_argument("--weight_decay", type=float, default=0)
     parser.add_argument("--warmup", type=int, default=1000)
     parser.add_argument('--momentum', type=float, default=0.9)
@@ -696,7 +696,12 @@ def multiGPU_CLIP(model_image, model_text, model, images, text_tokens, prompt_to
 
     img_embed, scale_text_embed = model(images, text_tokens, prompt_token)
     img_embed_norm = img_embed / img_embed.norm(dim=-1, keepdim=True)
-    scale_text_embed_norm = scale_text_embed / scale_text_embed.norm(dim=-1, keepdim=True)
+
+    #########################################################
+    scale_text_embed_norm = scale_text_embed
+    # scale_text_embed_norm = scale_text_embed / scale_text_embed.norm(dim=-1, keepdim=True)
+    #############################################################
+    
     logits_per_image = img_embed_norm @ scale_text_embed_norm.t()
     logits_per_text = scale_text_embed_norm @ img_embed_norm.t()
     return logits_per_image, logits_per_text, img_embed, scale_text_embed
