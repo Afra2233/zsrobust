@@ -72,7 +72,7 @@ def parse_option():
 
     # dataset
     parser.add_argument('--root', type=str, default='./data')
-    parser.add_argument('--dataset', type=str, default='cifar100')
+    parser.add_argument('--dataset', type=str, default='tinyImageNet')
     parser.add_argument('--image_size', type=int, default=224)
 
     # other
@@ -701,7 +701,7 @@ def multiGPU_CLIP(model_image, model_text, model, images, text_tokens, prompt_to
     scale_text_embed_norm = scale_text_embed
     # scale_text_embed_norm = scale_text_embed / scale_text_embed.norm(dim=-1, keepdim=True)
     #############################################################
-    
+
     logits_per_image = img_embed_norm @ scale_text_embed_norm.t()
     logits_per_text = scale_text_embed_norm @ img_embed_norm.t()
     return logits_per_image, logits_per_text, img_embed, scale_text_embed
