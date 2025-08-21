@@ -237,7 +237,11 @@ def main():
                                     weight_decay=args.weight_decay)
 
     criterion = torch.nn.CrossEntropyLoss().to(device)
-    criterion_kl = nn.KLDivLoss(reduction="sum").to(device)
+
+    ####################################################################
+    # criterion_kl = nn.KLDivLoss(reduction="sum").to(device)
+    criterion_kl = nn.KLDivLoss(reduction="batchmean").to(device)
+    #####################################################################
     args.start_epoch = 0
 
     # optionally resume from a checkpoint
