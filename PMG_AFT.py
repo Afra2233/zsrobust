@@ -239,8 +239,8 @@ def main():
     criterion = torch.nn.CrossEntropyLoss().to(device)
 
     ####################################################################
-    # criterion_kl = nn.KLDivLoss(reduction="sum").to(device)
-    criterion_kl = nn.KLDivLoss(reduction="batchmean").to(device)
+    criterion_kl = nn.KLDivLoss(reduction="sum").to(device)
+    # criterion_kl = nn.KLDivLoss(reduction="batchmean").to(device)
     #####################################################################
     args.start_epoch = 0
 
@@ -705,8 +705,8 @@ def multiGPU_CLIP(model_image, model_text, model, images, text_tokens, prompt_to
     img_embed_norm = img_embed / img_embed.norm(dim=-1, keepdim=True)
 
     #########################################################
-    scale_text_embed_norm = scale_text_embed
-    # scale_text_embed_norm = scale_text_embed / scale_text_embed.norm(dim=-1, keepdim=True)
+    # scale_text_embed_norm = scale_text_embed
+    scale_text_embed_norm = scale_text_embed / scale_text_embed.norm(dim=-1, keepdim=True)
     #############################################################
 
     logits_per_image = img_embed_norm @ scale_text_embed_norm.t()
