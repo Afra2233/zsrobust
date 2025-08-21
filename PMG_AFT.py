@@ -239,8 +239,8 @@ def main():
     criterion = torch.nn.CrossEntropyLoss().to(device)
 
     ####################################################################
-    criterion_kl = nn.KLDivLoss(reduction="sum").to(device)
-    # criterion_kl = nn.KLDivLoss(reduction="batchmean").to(device)
+    # criterion_kl = nn.KLDivLoss(reduction="sum").to(device)
+    criterion_kl = nn.KLDivLoss(reduction="batchmean").to(device)
     #####################################################################
     args.start_epoch = 0
 
