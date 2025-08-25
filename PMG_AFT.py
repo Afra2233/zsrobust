@@ -239,8 +239,8 @@ def main():
     criterion = torch.nn.CrossEntropyLoss().to(device)
 
     ####################################################################
-    # criterion_kl = nn.KLDivLoss(reduction="sum").to(device)
-    criterion_kl = nn.KLDivLoss(reduction="batchmean").to(device)
+    criterion_kl = nn.KLDivLoss(reduction="sum").to(device)
+    # criterion_kl = nn.KLDivLoss(reduction="batchmean").to(device)
     #####################################################################
     args.start_epoch = 0
 
@@ -779,9 +779,12 @@ def train(train_loader, texts, model, model_ori, model_text, model_image, prompt
             output_clean, _, img_embed_clean, _ = multiGPU_CLIP(model_image, model_text, model, prompted_clean_images,
                                                                 text_tokens,
                                                                 prompt_token)
-
-            loss_advori = criterion_kl(F.log_softmax(output, dim=1), F.softmax(output_ori, dim=1))
-            loss_advclean = criterion_kl(F.log_softmax(output, dim=1), F.softmax(output_clean, dim=1))
+            #################################################################################################
+            # loss_advori = criterion_kl(F.log_softmax(output, dim=1), F.softmax(output_ori, dim=1))
+            # loss_advclean = criterion_kl(F.log_softmax(output, dim=1), F.softmax(output_clean, dim=1))
+            loss_advori = criterion_kl(F.log_softmax(output, dim=1), F.softmax(output_ori.detach(), dim=1))
+            loss_advclean = criterion_kl(F.log_softmax(output, dim=1), F.softmax(output_clean.detach(), dim=1))
+            ##################################################################################################
             loss = criterion(output, target) + loss_advclean + loss_advori
             # print(loss)
 

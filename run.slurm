@@ -36,7 +36,7 @@ python PMG_AFT.py \
    --train_stepsize 1 \
    --epochs 10 \
    --add_prompt_size 0 \
-   --trial 5
+   --trial 6
 
 #   --resume "./save/models/wangsibo_null_patch_30_tinyImageNet_clip_vit_b32_lr_5e-05_decay_0_bsz_256_warmup_1000_trial_4_addp_0_template_this_is_a_photo_of_a_{}/model_best.pth.tar" \
 #   --evaluate \
