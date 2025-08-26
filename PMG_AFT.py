@@ -121,10 +121,10 @@ logging.basicConfig(
         logging.StreamHandler()
     ])
 ##################################################################
-# ImageNet_MEAN = (0.485, 0.456, 0.406)
-# ImageNet_STD = (0.229, 0.224, 0.225)
-ImageNet_MEAN = (0.48145466, 0.4578275, 0.40821073)
-ImageNet_STD  = (0.26862954, 0.26130258, 0.27577711)
+ImageNet_MEAN = (0.485, 0.456, 0.406)
+ImageNet_STD = (0.229, 0.224, 0.225)
+# ImageNet_MEAN = (0.48145466, 0.4578275, 0.40821073)
+# ImageNet_STD  = (0.26862954, 0.26130258, 0.27577711)
 ###########################################################
 
 mu_img = torch.tensor(ImageNet_MEAN).view(3, 1, 1).cuda()
@@ -705,8 +705,8 @@ def multiGPU_CLIP(model_image, model_text, model, images, text_tokens, prompt_to
     img_embed_norm = img_embed / img_embed.norm(dim=-1, keepdim=True)
 
     #########################################################
-    scale_text_embed_norm = scale_text_embed
-    # scale_text_embed_norm = scale_text_embed / scale_text_embed.norm(dim=-1, keepdim=True)
+    # scale_text_embed_norm = scale_text_embed
+    scale_text_embed_norm = scale_text_embed / scale_text_embed.norm(dim=-1, keepdim=True)
     #############################################################
 
     logits_per_image = img_embed_norm @ scale_text_embed_norm.t()
