@@ -27,6 +27,8 @@ cd /scratch/hpc/07/zhang303/zsrobust
 # export NCCL_DEBUG=INFO
 
 python PMG_AFT.py \
+   --resume "./save/models/wangsibo_null_patch_30_tinyImageNet_clip_vit_b32_lr_5e-05_decay_0_bsz_256_warmup_1000_trial_8_addp_0_template_this_is_a_photo_of_a_{}/model_best.pth.tar" \
+   --evaluate \
    --batch_size 256 \
    --root ./data \
    --dataset tinyImageNet \
@@ -38,5 +40,5 @@ python PMG_AFT.py \
    --add_prompt_size 0 \
    --trial 8
 
-#   --resume "./save/models/wangsibo_null_patch_30_tinyImageNet_clip_vit_b32_lr_5e-05_decay_0_bsz_256_warmup_1000_trial_7_addp_0_template_this_is_a_photo_of_a_{}/model_best.pth.tar" \
+#   --resume "./save/models/wangsibo_null_patch_30_tinyImageNet_clip_vit_b32_lr_5e-05_decay_0_bsz_256_warmup_1000_trial_8_addp_0_template_this_is_a_photo_of_a_{}/model_best.pth.tar" \
 #   --evaluate \
