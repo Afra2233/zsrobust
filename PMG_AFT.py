@@ -239,8 +239,8 @@ def main():
     criterion = torch.nn.CrossEntropyLoss().to(device)
 
     ####################################################################
-    criterion_kl = nn.KLDivLoss(reduction="sum").to(device)
-    # criterion_kl = nn.KLDivLoss(reduction="batchmean").to(device)
+    # criterion_kl = nn.KLDivLoss(reduction="sum").to(device)
+    criterion_kl = nn.KLDivLoss(reduction="batchmean").to(device)
     #####################################################################
     args.start_epoch = 0
 
@@ -524,7 +524,7 @@ def attack_CW(prompter, model, model_text, model_image, add_prompter, criterion,
         delta *= r / n * epsilon
     else:
         raise ValueError
-    delta = clamp(delta, lower_limit - X, upper_limit - X)
+    delta = clamp(delta, lower_limit - X, upper_limit - X) #截断/裁剪数值到给定范围的函数。
     delta.requires_grad = True
     for _ in range(attack_iters):
         # output = model(normalize(X ))
@@ -618,15 +618,16 @@ def attack_pgd(prompter, model, model_text, model_image, add_prompter, criterion
     delta = torch.zeros_like(X).cuda()
     if norm == "l_inf":
         delta.uniform_(-epsilon, epsilon)
+        #就地(in-place) 把张量里的每个元素随机采样为 𝑈(𝑎,𝑏)，所以这行会把 delta 的每个像素扰动初始化为 [−𝜀,𝜀]的随机值
     elif norm == "l_2":
-        delta.normal_()
-        d_flat = delta.view(delta.size(0), -1)
-        n = d_flat.norm(p=2, dim=1).view(delta.size(0), 1, 1, 1)
-        r = torch.zeros_like(n).uniform_(0, 1)
-        delta *= r / n * epsilon
+        delta.normal_() #把 delta 每个元素用 标准正态分布 N(0,1) 随机化。此时每个样本的 delta 方向是随机的。
+        d_flat = delta.view(delta.size(0), -1) #把每个样本展平成向量
+        n = d_flat.norm(p=2, dim=1).view(delta.size(0), 1, 1, 1)#计算每个样本的 L2范数n
+        r = torch.zeros_like(n).uniform_(0, 1) #为每个样本采一个 [0,1] 的随机半径因子 r
+        delta *= r / n * epsilon #把每个样本的 delta 缩放 到半径为 r * ε：
     else:
         raise ValueError
-    delta = clamp(delta, lower_limit - X, upper_limit - X)
+    delta = clamp(delta, lower_limit - X, upper_limit - X) #
     delta.requires_grad = True
     for _ in range(attack_iters):
         # output = model(normalize(X ))
@@ -639,19 +640,19 @@ def attack_pgd(prompter, model, model_text, model_image, add_prompter, criterion
         loss = criterion(output, target)
 
         loss.backward()
-        grad = delta.grad.detach()
-        d = delta[:, :, :, :]
-        g = grad[:, :, :, :]
-        x = X[:, :, :, :]
+        grad = delta.grad.detach() 
+        d = delta[:, :, :, :]   #当前扰动（形状跟 X 一样），这行其实就是个 view，等同于 d = delta
+        g = grad[:, :, :, :] # 扰动的梯度（∂loss/∂delta）
+        x = X[:, :, :, :] # 原图
         if norm == "l_inf":
-            d = torch.clamp(d + alpha * torch.sign(g), min=-epsilon, max=epsilon)
+            d = torch.clamp(d + alpha * torch.sign(g), min=-epsilon, max=epsilon) #往增大 loss 的方向（梯度符号）走一步 alpha，然后把每个像素的扰动裁到 [−ε,ε]。
         elif norm == "l_2":
-            g_norm = torch.norm(g.view(g.shape[0], -1), dim=1).view(-1, 1, 1, 1)
-            scaled_g = g / (g_norm + 1e-10)
-            d = (d + scaled_g * alpha).view(d.size(0), -1).renorm(p=2, dim=0, maxnorm=epsilon).view_as(d)
-        d = clamp(d, lower_limit - x, upper_limit - x)
-        delta.data[:, :, :, :] = d
-        delta.grad.zero_()
+            g_norm = torch.norm(g.view(g.shape[0], -1), dim=1).view(-1, 1, 1, 1) # 每张图的梯度 L2 范数
+            scaled_g = g / (g_norm + 1e-10) # 单位方向
+            d = (d + scaled_g * alpha).view(d.size(0), -1).renorm(p=2, dim=0, maxnorm=epsilon).view_as(d)  # 往单位方向走一步, # 投影回 L2 球
+        d = clamp(d, lower_limit - x, upper_limit - x) # 等价于保证 x+d ∈ [lower_limit, upper_limit]
+        delta.data[:, :, :, :] = d  # 把新扰动写回（.data 用法较老，见下面建议）
+        delta.grad.zero_() # 清掉上一轮留下的梯度
 
     return delta
 
@@ -872,25 +873,35 @@ def validate(val_loader_list, val_dataset_name, texts_list, model, model_text, m
             # logger.info(images.size())
 
             with autocast():
+#           是 PyTorch 的自动混合精度训练（AMP）上下文管理器。放在它里面跑的前向/损失计算，会自动把合适的算子用更低精度（FP16 或 BF16）计算，不合适的算子仍用 FP32，从而：
+#           更快：大多数卷积/矩阵乘在半精度上更快；
+#           更省显存：激活用更少内存；
+#           数值更稳：像 BatchNorm、求和、部分归一化等容易不稳定的算子会自动留在 FP32。
 
                 # clean images, with prompt and without prompt
                 # compute output
                 with torch.no_grad():
+#               会临时关闭自动求导（Autograd）。在这个上下文里做的张量运算都不记录计算图，因此：
+#               不产生梯度（tensor.grad 不会被填充）
+#               更省显存（不存中间激活）
+#               更快（少了构图与反向相关开销）
+
                     # prompt_token = add_prompter()
                     # prompt_token = None
-                    prompt_token = prompt_token = add_prompter() if add_prompt_len > 0 else None
+                    prompt_token = add_prompter() if add_prompt_len > 0 else None
                     # output_prompt, _ = model(prompter(clip_img_preprocessing(images)), text_tokens, prompt_token)
                     output_prompt, _, _, _ = multiGPU_CLIP(model_image, model_text, model,
                                                            prompter(clip_img_preprocessing(images)), text_tokens,
                                                            prompt_token)
 
                     loss = criterion(output_prompt, target)
+                    #loss 是标量 tensor
 
                     # measure accuracy and record loss
                     acc1 = accuracy(output_prompt, target, topk=(1,))
-                    losses.update(loss.item(), images.size(0))
+                    losses.update(loss.item(), images.size(0))# loss 是标量 tensor, 用item（）将单数值tensor变成普通python数字。
                     top1_prompt.update(acc1[0].item(), images.size(0))
-
+                     
                     top1_org.update(acc1[0].item(), images.size(0))
 
                 torch.cuda.empty_cache()
