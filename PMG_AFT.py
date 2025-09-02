@@ -633,8 +633,10 @@ def attack_pgd(prompter, model, model_text, model_image, add_prompter, criterion
         # output = model(normalize(X ))
 
         prompted_images = prompter(clip_img_preprocessing(X + delta))
+        
+        ############################################################################
         prompt_token = add_prompter() if add_prompt_len > 0 else None
-
+        ##########################################################################
         output, _, _, _ = multiGPU_CLIP(model_image, model_text, model, prompted_images, text_tokens, prompt_token)
 
         loss = criterion(output, target)
