@@ -16,8 +16,7 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=96G
 #SBATCH --chdir=/scratch/hpc/07/zhang303/zsrobust
-#SBATCH --output=logs/tiny_download_unzip_%j.out
-#SBATCH --error=logs/tiny_download_unzip_%j.err
+
 
 set -euo pipefail
 
