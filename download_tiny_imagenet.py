@@ -9,7 +9,7 @@ import requests
 
 URL = "https://cs231n.stanford.edu/tiny-imagenet-200.zip"
 
-BASE_DIR = Path("/storage/hpc/07/zhang303/data")
+BASE_DIR = Path("/scratch/hpc/07/zhang303/data")
 ZIP_PATH = BASE_DIR / "tiny-imagenet-200.zip"
 EXTRACT_ROOT = BASE_DIR
 TARGET_DIR = BASE_DIR / "tiny-imagenet-200"
