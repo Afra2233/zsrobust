@@ -5,8 +5,8 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=96G
 #SBATCH --chdir=/scratch/hpc/07/zhang303/zsrobust
-#SBATCH --output=/scratch/hpc/07/zhang303/zsrobust/logs/tiny_download_unzip_%j.out
-#SBATCH --error=/scratch/hpc/07/zhang303/zsrobust/logs/tiny_download_unzip_%j.err
+#SBATCH --output=tiny_download_unzip_%j.out
+#SBATCH --error=tiny_download_unzip_%j.err
 
 set -euo pipefail
 
@@ -19,7 +19,7 @@ URL="http://cs231n.stanford.edu/tiny-imagenet-200.zip"
 
 echo "[INFO] 工作目录: $(pwd)"
 echo "[INFO] 时间: $(date)"
-echo "[INFO] 主机名: $(hostname)"
+
 
 # ===== 第一步：下载 =====
 if [ -f "$ZIP_NAME" ]; then
