@@ -5,9 +5,12 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=96G
 #SBATCH --chdir=/scratch/hpc/07/zhang303/zsrobust
-
+#SBATCH --output=/scratch/hpc/07/zhang303/zsrobust/logs/tiny_download_unzip_%j.out
+#SBATCH --error=/scratch/hpc/07/zhang303/zsrobust/logs/tiny_download_unzip_%j.err
 
 set -euo pipefail
+
+export PATH=/usr/bin:/bin:/usr/local/bin:/usr/sbin:/usr/local/sbin:$PATH
 
 mkdir -p logs data
 cd data || exit 1
@@ -16,17 +19,20 @@ ZIP_NAME="tiny-imagenet-200.zip"
 DATA_DIR="tiny-imagenet-200"
 URL="http://cs231n.stanford.edu/tiny-imagenet-200.zip"
 
+echo "[INFO] PATH=$PATH"
+echo "[INFO] which wget: $(which wget || echo NOT_FOUND)"
 echo "[INFO] 工作目录: $(pwd)"
 echo "[INFO] 时间: $(date)"
+echo "[INFO] 主机名: $(hostname)"
 
 # ===== 第一步：下载（支持断点续传）=====
 if [ -f "$ZIP_NAME" ]; then
-  echo "[INFO] 已发现 $ZIP_NAME ，尝试断点续传下载 ..."
+  echo "[INFO] 已发现 $ZIP_NAME，尝试断点续传下载 ..."
 else
-  echo "[INFO] 未发现 $ZIP_NAME ，开始下载 ..."
+  echo "[INFO] 未发现 $ZIP_NAME，开始下载 ..."
 fi
 
-wget -c --progress=bar:force -O "$ZIP_NAME" "$URL"
+/usr/bin/wget -c --progress=bar:force -O "$ZIP_NAME" "$URL"
 
 if [ ! -f "$ZIP_NAME" ]; then
   echo "[ERROR] 下载失败，未找到 $ZIP_NAME"
