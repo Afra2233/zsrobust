@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=tinyimage_download
 
-#SBATCH -p gpu-short
+#SBATCH -p gpu-medium
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:2
 #SBATCH --time=48:00:00
