@@ -7,4 +7,4 @@
 #SBATCH --cpus-per-task=8
 
 
-srun python download_tiny_imagenet.py
+srun /storage/hpc/07/zhang303/conda_envs/zsrobust39/bin/python download_tiny_imagenet.py
