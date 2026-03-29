@@ -1,6 +1,6 @@
 from torchvision.datasets import Places365
 
-root = "/scratch/hpc/07/zhang303/zsrobust/places365"
+root = "/scratch/hpc/07/zhang303/zsrobust/data/places365"
 
 splits = ["train-standard", "val", "test"]
 
