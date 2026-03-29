@@ -23,9 +23,9 @@ echo "[INFO] 时间: $(date)"
 
 # ===== 第一步：下载 =====
 if [ -f "$ZIP_NAME" ]; then
-  echo "[INFO] 已发现 $ZIP_NAME，跳过下载"
+  echo "[INFO] 已发现 $ZIP_NAME,跳过下载"
 else
-  echo "[INFO] 未发现 $ZIP_NAME，开始下载 ..."
+  echo "[INFO] 未发现 $ZIP_NAME,开始下载 ..."
   python - <<'PY'
 import urllib.request
 
