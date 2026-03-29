@@ -10,8 +10,6 @@
 
 set -euo pipefail
 
-export PATH=/usr/bin:/bin:/usr/local/bin:/usr/sbin:/usr/local/sbin:$PATH
-
 mkdir -p logs data
 cd data || exit 1
 
@@ -19,30 +17,47 @@ ZIP_NAME="tiny-imagenet-200.zip"
 DATA_DIR="tiny-imagenet-200"
 URL="http://cs231n.stanford.edu/tiny-imagenet-200.zip"
 
-echo "[INFO] PATH=$PATH"
-echo "[INFO] which wget: $(which wget || echo NOT_FOUND)"
 echo "[INFO] 工作目录: $(pwd)"
 echo "[INFO] 时间: $(date)"
 echo "[INFO] 主机名: $(hostname)"
 
-# ===== 第一步：下载（支持断点续传）=====
+# ===== 第一步：下载 =====
 if [ -f "$ZIP_NAME" ]; then
-  echo "[INFO] 已发现 $ZIP_NAME，尝试断点续传下载 ..."
+  echo "[INFO] 已发现 $ZIP_NAME，跳过下载"
 else
   echo "[INFO] 未发现 $ZIP_NAME，开始下载 ..."
-fi
+  python - <<'PY'
+import urllib.request
 
-/usr/bin/wget -c --progress=bar:force -O "$ZIP_NAME" "$URL"
+url = "http://cs231n.stanford.edu/tiny-imagenet-200.zip"
+out = "tiny-imagenet-200.zip"
+
+def reporthook(block_num, block_size, total_size):
+    downloaded = block_num * block_size
+    if total_size > 0:
+        percent = min(downloaded * 100 / total_size, 100)
+        mb_done = downloaded / 1024 / 1024
+        mb_total = total_size / 1024 / 1024
+        print(f"\r[INFO] 下载进度: {percent:6.2f}% ({mb_done:.1f}/{mb_total:.1f} MB)", end="", flush=True)
+    else:
+        mb_done = downloaded / 1024 / 1024
+        print(f"\r[INFO] 已下载: {mb_done:.1f} MB", end="", flush=True)
+
+print("[INFO] 开始下载 ...", flush=True)
+urllib.request.urlretrieve(url, out, reporthook=reporthook)
+print("\n[INFO] 下载完成", flush=True)
+PY
+fi
 
 if [ ! -f "$ZIP_NAME" ]; then
   echo "[ERROR] 下载失败，未找到 $ZIP_NAME"
   exit 1
 fi
 
-echo "[INFO] 下载完成"
+echo "[INFO] 文件信息："
 ls -lh "$ZIP_NAME"
 
-# ===== 第二步：解压（支持补全之前未完成的解压）=====
+# ===== 第二步：解压 =====
 echo "[INFO] 开始解压/补全解压 ..."
 unzip -o "$ZIP_NAME" -d .
 
@@ -54,7 +69,7 @@ fi
 echo "[INFO] 解压完成，当前目录结构检查："
 find "$DATA_DIR" -maxdepth 2 -type d | head -n 20
 
-# ===== 第三步：整理验证集目录结构 =====
+# ===== 第三步：整理验证集 =====
 VAL_DIR="$DATA_DIR/val"
 if [ -d "$VAL_DIR/images" ] && [ -f "$VAL_DIR/val_annotations.txt" ]; then
   echo "[INFO] 整理验证集目录结构 ..."
@@ -69,21 +84,18 @@ else
   echo "[INFO] 验证集目录似乎已经整理过，跳过整理步骤"
 fi
 
-# ===== 刷新时间戳（可选）=====
-find "$DATA_DIR" -exec touch {} + || true
-
 # ===== 基本完整性检查 =====
 train_count=$(find "$DATA_DIR/train" -type f -iname "*.jpeg" | wc -l)
-val_count=$(find "$DATA_DIR/val"   -type f -iname "*.jpeg" | wc -l)
+val_count=$(find "$DATA_DIR/val" -type f -iname "*.jpeg" | wc -l)
 train_cls=$(find "$DATA_DIR/train" -mindepth 1 -maxdepth 1 -type d | wc -l)
-val_cls=$(find "$DATA_DIR/val"     -mindepth 1 -maxdepth 1 -type d | wc -l)
+val_cls=$(find "$DATA_DIR/val" -mindepth 1 -maxdepth 1 -type d | wc -l)
 
 echo "[INFO] train classes: $train_cls (期望 200)"
 echo "[INFO] val   classes: $val_cls   (期望 200)"
 echo "[INFO] train JPEG files: $train_count (期望 100000)"
 echo "[INFO] val   JPEG files: $val_count   (期望 10000)"
 
-# ===== 严格逐类检查（train 每类=500，val 每类=50）=====
+# ===== 严格逐类检查 =====
 echo "[INFO] 逐类检查 train=500 / val=50 ..."
 bad_train=0
 bad_val=0
@@ -104,7 +116,6 @@ while read -r d; do
   fi
 done < <(find "$DATA_DIR/val" -mindepth 1 -maxdepth 1 -type d)
 
-# ===== 最终判定 =====
 if [ "$train_cls" -ne 200 ] || [ "$val_cls" -ne 200 ] || [ "$train_count" -ne 100000 ] || [ "$val_count" -ne 10000 ]; then
   echo "[ERROR] 类别数或图片总数不符合期望"
   exit 1
